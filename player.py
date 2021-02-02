@@ -1,3 +1,35 @@
+class World:
+    def __init__(self,room_count):
+        self.rooms = []
+        for room in range(room_count):
+            self.rooms.append(self.create_room(room,2))
+        for room in self.rooms:
+            while room.name > 0 and room.name < len(self.rooms):
+                room.neighbor_a = self.rooms[room.name - 1]
+                room.neighbor_b = self.rooms[room.name + 1]
+    def create_room(self,name,door_count):
+        room = Room(name,door_count)  
+        return room 
+
+class Room:
+    def __init__(self,name,door_count):
+        self.name = name
+        self.neighboor_a = 0
+        self.neighboor_b = 0
+        self.doors = []
+        for door in range(door_count):
+            self.doors.append(self.create_door(self.name, self.neighboor_b))
+    def create_door(self,room_1,room_2,):
+        return Door(room_1,room_2)
+
+class Door:
+    def __init__(self,room_a,room_b):
+        self.connects = [room_a,room_b]
+
+
+
+print(a.rooms[3].neighbor_b.name)
+
 class Player:
     def __init__(self,hp,dmg):
         self.dmg = dmg
@@ -81,21 +113,6 @@ class Inventory:
         for i in self.content:
             print(i.name)
 
-class Room:
-    def __init__(self, name, door_count):
-        self.name = name
-        self.door_count = door_count
-        self.inhabitants = []
-        self.stuff = []
-    def enter_room(self,inhabitant):
-        inhabitant.position = self
-
-
-
-
-class Door:
-    def __init__(self,room_a,room_b):
-        self.connection = [room_a, room_b]
 
 
 
@@ -111,6 +128,6 @@ chainmail = Item('Chainmail','def',0,15)
 
 
 #todo
-#class Map/World?
-#class Room
+#make neighbors work
+#playerposition
 #gameloop
