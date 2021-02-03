@@ -4,9 +4,15 @@ class World:
         for room in range(room_count):
             self.rooms.append(self.create_room(room,2))
         for room in self.rooms:
-            while room.name > 0 and room.name < len(self.rooms):
-                room.neighbor_a = self.rooms[room.name - 1]
-                room.neighbor_b = self.rooms[room.name + 1]
+            if room.name >= 0 and room.name <= len(self.rooms) - 1:
+                if room.name != (len(self.rooms) - 1):
+                    print('Room {} is not the last room!'.format(room.name))
+                    room.neighbor_a = self.rooms[room.name - 1]
+                    room.neighbor_b = self.rooms[room.name + 1]
+                else:
+                    print('Room {} is the last room!'.format(room.name))                    
+                    room.neighbor_a = self.rooms[room.name - 1]
+                    room.neighbor_b = self.rooms[room.name - (len(self.rooms) - 1)]                   
     def create_room(self,name,door_count):
         room = Room(name,door_count)  
         return room 
@@ -27,8 +33,10 @@ class Door:
         self.connects = [room_a,room_b]
 
 
+for room in range(len(a.rooms)):
+    print('Room {} is the left neighbor of room {}.'.format(a.rooms[room].neighbor_a.name, room))
+    print('Room {} is the right neighbor of room {}.'.format(a.rooms[room].neighbor_b.name, room))
 
-print(a.rooms[3].neighbor_b.name)
 
 class Player:
     def __init__(self,hp,dmg):
@@ -40,7 +48,16 @@ class Player:
         self.alive = True
         self.off_hand = False
         self.def_hand = False
-        self.position
+        #self.position
+    def __repr__(self):
+        return f'Player(self.name, self.hp, self.dmg)'
+    def __str__(self):
+        return f'Your name is {self.name} and you have {self.hp} Healthpoints and {self.armour} armour. Further you have the following items in your inventory:'
+        if len(self.inventory.content) != 0:
+            for i in self.inventory.content:
+                print(i.name)
+        else:
+            print('your inventory is empty.')
     def __del__(self):
         if self.hp <= 0:
             self.alive = False
@@ -63,7 +80,7 @@ class Item:
         self.armour_value = armour_value
         self.equipped_status = False
         self.is_in_inventory = False
-        self.position =
+        #self.position
     def equip(self,bearer):
        if self.is_in_inventory == True:
             if self.typus == "off":
@@ -98,7 +115,6 @@ class Item:
                     print('Nothing defensive to unequip!')
 
         
-
 class Inventory:
     def __init__(self):
         self.content = []
